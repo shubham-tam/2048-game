@@ -3,34 +3,29 @@ import React, { Component } from "react";
 // import { faRotate } from "@fortawesome/free-solid-svg-icons";
 import {
   ParentContainer,
-  Header,
+  // Header,
   Board,
-  NewGame,
-  ScoreContainer,
-  Footer,
+  // AdditionalFeatures,
+  // ScoreContainer,
+  // Footer,
 } from "./style";
 import "./App.css";
 
-class App extends Component {
+class TwentyFourtyEight extends Component {
+  // the game will be of 4x4
   constructor(props) {
     super(props);
     this.myRef = React.createRef();
-
     this.state = {
-      tiles: [
-        // [null, null, null, null],
-        // [null, null, null, null],
-        // [null, null, null, null],
-        // [null, null, null, null],
-        // [null, null, null, null],
-        // [2, null, 4, 8],
-        // [16, 32, 64, 128],
-        // [256, 512, 1024, 2048],
-        // [2, 32, null, 4096],
+      matrix: [
+        [null, null, null, null],
+        [null, null, null, null],
+        [null, null, null, null],
+        [null, null, null, null],
+        [null, null, null, null],
       ],
-
       // prev: [],
-      // score: 2,
+      // score: 0,
       // prevScore: 0,
       // gridChange: false,
       // optedForRestart: false,
@@ -39,39 +34,29 @@ class App extends Component {
 
   componentDidMount() {
     // this.myRef.current.focus();
-    this.newGame(4);
+    this.startOver(4);
     // window.addEventListener("beforeunload", this.onUnload);
   }
 
-  newGame = (sizeArg) => {
-    // let size = sizeArg ? sizeArg : this.state.size;
-    let size = sizeArg;
-    console.log(`size of array: ${size}`);
+  startOver = (sizeArg) => {
+    // let size = sizeArg ? sizeArg : this.state.game.size;
+    let size = sizeArg ? sizeArg : this.state.size;
+    console.log(size);
 
-    // Insert grid boxes
     let m = [];
     let t = Array(size).fill(null);
     for (let i = 0; i < size; i++) {
       m.push(t.slice());
     }
 
-    this.insertNew(m);
-    this.insertNew(m);
-
+    this.insertNew(m, true);
+    this.insertNew(m, true);
     this.setState({
-      tiles: m,
-      // prev: m,
-      score: 0,
-      // prevScore: 0,
-      // game: {
-      //   ...this.state.game,
-      // },
+      matrix: m,
     });
-    // this.myRef.current.focus();
   };
 
   random = (min, max) => {
-    // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
 
@@ -92,7 +77,6 @@ class App extends Component {
 
   insertNew = (m, init = false) => {
     const maxValue = m.length - 1;
-    console.log(`maxValue: ${maxValue}`);
     let flag = init
       ? true
       : JSON.stringify(m) !== JSON.stringify(this.state.matrix);
@@ -113,33 +97,11 @@ class App extends Component {
   };
 
   render() {
-    // const { tiles } = this.state;
     return (
-      <div>
+      <>
         <ParentContainer>
-          <Header>
-            <NewGame>
-              {/* <FontAwesomeIcon
-                // onClick={}
-                icon={faRotate}
-                size="2x"
-                style={{
-                  marginTop: "100px",
-                  cursor: "pointer",
-                  // marginLeft: "-20px",
-                }}
-              /> */}
-              New Game
-            </NewGame>
-            <ScoreContainer>
-              <div>
-                <strong style={{ color: "white" }}> SCORE : </strong> <br />{" "}
-                <div style={{ color: "white" }}> {this.state.score} </div>
-              </div>
-            </ScoreContainer>
-          </Header>
           <Board>
-            {this.state.tiles.map((row, i) =>
+            {this.state.matrix.map((row, i) =>
               row.map((element, j) => (
                 <div
                   key={i + "-" + j}
@@ -148,29 +110,20 @@ class App extends Component {
                   <div
                     className={
                       `tiles _` +
-                      (this.state.tiles[i][j] !== null
-                        ? this.state.tiles[i][j]
+                      (this.state.matrix[i][j] !== null
+                        ? this.state.matrix[i][j]
                         : ``)
                     }
                   >
-                    {this.state.tiles[i][j]}
+                    {this.state.matrix[i][j]}
                   </div>
                 </div>
               ))
             )}
           </Board>
         </ParentContainer>
-        <Footer>
-          <strong>
-            {" "}
-            <p style={{ color: "#7f5539" }}>
-              {" "}
-              Please use arrows to move the tile
-            </p>{" "}
-          </strong>
-        </Footer>
-      </div>
+      </>
     );
   }
 }
-export default App;
+export default TwentyFourtyEight;
