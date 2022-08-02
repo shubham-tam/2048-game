@@ -12,7 +12,8 @@ export const NewGame = styled.div`
   padding: 10px 20px;
   background-color: #7f5539;
   border-radius: 20px;
-  fontsize: 1.5rem;
+  font-size: 1.5rem;
+  // font-size: 18px;
   color: white;
 `;
 
@@ -41,7 +42,8 @@ export const ScoreContainer = styled.div`
 export const Header = styled.div`
   display: flex;
   //   justify-content: space-between;
-  gap: 340px;
+  margin-top: -10px;
+  gap: 300px;
 
   @media screen and (max-width: 415px) {
     gap: 80px;
@@ -52,7 +54,8 @@ export const Header = styled.div`
   }
 
   @media screen and (max-width: 1800px) {
-    gap: 250px;
+    // gap: 250px;
+    gap: 220px;
   }
 `;
 
@@ -69,6 +72,10 @@ export const Board = styled.div`
   transform: translate(-50%, -50%);
   position: absolute;
   border-radius: 10px;
+
+  &:focus {
+    outline: none;
+  }
 
   @media screen and (max-width: 415px) {
     width: 300px;
@@ -90,7 +97,7 @@ export const Footer = styled.div`
   width: 100%;
   text-align: center;
   position: absolute;
-  bottom: 75px;
+  bottom: 0px;
   font-size: 28px;
 
   @media screen and (max-width: 415px) {
@@ -104,7 +111,9 @@ export const Footer = styled.div`
   }
 
   @media screen and (max-width: 1800px) {
-    bottom: 35px;
+    // bottom: 35px;
+    bottom: 15px;
+
     font-size: 28px;
   }
 `;
