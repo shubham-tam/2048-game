@@ -162,7 +162,7 @@ body {
 }
 .game-won.restart {
   /* font-size: 2.5rem; */
-  font-size: 3rem;
+  font-size: 2.2rem;
   flex-direction: column;
   font-weight: bold;
   /* color: black; */
