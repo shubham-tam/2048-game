@@ -63,6 +63,7 @@ class App extends Component {
       tiles: m,
       prev: m,
       score: 0,
+      prevScore: 0,
       restart: false,
       popup: true,
       gameWon: false,
@@ -98,76 +99,76 @@ class App extends Component {
             }
             return null;
           });
-        }
 
-        if (dir === "up") {
-          let index = 0;
-          let lastIndex;
+          if (dir === "up") {
+            let index = 0;
+            let lastIndex;
 
-          temp.forEach((currentEl, i) => {
-            let next = temp[i + 1];
-            if (i !== lastIndex) {
-              if (next) {
-                if (currentEl.value === next.value) {
-                  matrix[index][currentEl.cIndex] = 2 * currentEl.value;
-                  matrix[currentEl.rIndex][currentEl.cIndex] =
-                    2 * currentEl.value;
+            temp.forEach((currentEl, i) => {
+              let next = temp[i + 1];
+              if (i !== lastIndex) {
+                if (next) {
+                  if (currentEl.value === next.value) {
+                    matrix[index][currentEl.cIndex] = 2 * currentEl.value;
+                    matrix[currentEl.rIndex][currentEl.cIndex] =
+                      2 * currentEl.value;
 
-                  if (2 * currentEl.value === 2048) {
-                    this.setState({
-                      gameWon: true,
-                    });
+                    if (2 * currentEl.value === 2048) {
+                      this.setState({
+                        gameWon: true,
+                      });
+                    }
+
+                    score = score + 2 * currentEl.value;
+                    matrix[index + 1][currentEl.cIndex] = null;
+                    matrix[next.rIndex][next.cIndex] = null;
+                    index += 1;
+                    lastIndex = i + 1;
+                  } else {
+                    matrix[index + 1][currentEl.cIndex] = null;
+                    matrix[currentEl.rIndex][currentEl.cIndex] = null;
+                    matrix[index][currentEl.cIndex] = currentEl.value;
+                    index += 1;
                   }
-
-                  score = score + 2 * currentEl.value;
-                  matrix[next.rIndex][next.cIndex] = null;
-                  matrix[index + 1][currentEl.cIndex] = null;
-                  index += 1;
-                  lastIndex = i + 1;
                 } else {
-                  matrix[index + 1][currentEl.cIndex] = null;
                   matrix[currentEl.rIndex][currentEl.cIndex] = null;
                   matrix[index][currentEl.cIndex] = currentEl.value;
-                  index += 1;
-                }
-              } else {
-                matrix[currentEl.rIndex][currentEl.cIndex] = null;
-                matrix[index][currentEl.cIndex] = currentEl.value;
 
-                if (matrix[(index = 1)]) {
-                  matrix[index + 1][currentEl.cIndex] = null;
-                }
-                index += 1;
-                lastIndex = null;
-              }
-            }
-          });
-        } else if (dir === "down") {
-          // max value cuz max no of rows as we pushin the array down
-          let index = maxValue;
-          let lastIndex;
-
-          temp.forEach((currentEl, i) => {
-            let next = temp[i + 1];
-            if (next) {
-              if (i !== lastIndex) {
-                if (currentEl.value === next.value) {
-                  matrix[index][currentEl.cIndex] = 2 * currentEl.value;
-                  score = score = 2 * currentEl.value;
-                  if (2 * currentEl.value === 2048) {
-                    this.setState({
-                      gameWon: true,
-                    });
+                  if (matrix[index + 1]) {
+                    matrix[index + 1][currentEl.cIndex] = null;
                   }
-                  matrix[next.rIndex][next.cIndex] = null;
-                  matrix[index - 1][currentEl.cIndex] = null;
-                  index -= 1;
-                  lastIndex = i + 1;
-                } else {
-                  matrix[index][currentEl.cIndex] = currentEl.value;
 
-                  matrix[index - 1][currentEl.cIndex] = null;
-                  index -= 1;
+                  index += 1;
+                  lastIndex = null;
+                }
+              }
+            });
+          } else if (dir === "down") {
+            // max value cuz max no of rows as we pushin the array down
+            let index = maxValue;
+            let lastIndex;
+
+            temp.forEach((currentEl, i) => {
+              let next = temp[i + 1];
+              if (next) {
+                if (i !== lastIndex) {
+                  if (currentEl.value === next.value) {
+                    matrix[index][currentEl.cIndex] = 2 * currentEl.value;
+                    score = score + 2 * currentEl.value;
+                    if (2 * currentEl.value === 2048) {
+                      this.setState({
+                        gameWon: true,
+                      });
+                    }
+                    matrix[next.rIndex][next.cIndex] = null;
+                    matrix[index - 1][currentEl.cIndex] = null;
+                    index -= 1;
+                    lastIndex = i + 1;
+                  } else {
+                    matrix[index][currentEl.cIndex] = currentEl.value;
+                    matrix[index - 1][currentEl.cIndex] = null;
+                    index -= 1;
+                  }
                 }
               } else {
                 if (i !== lastIndex) {
@@ -178,11 +179,11 @@ class App extends Component {
                     matrix[index - 1][currentEl.cIndex] = null;
                   }
 
-                  index = index - 1;
+                  index -= 1;
                 }
               }
-            }
-          });
+            });
+          }
         }
       });
     } else if (dir === "left" || dir === "right") {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { move } from "./functions/move";
-import { merge } from "./functions/merge";
+import { move } from "./move";
+import { merge } from "./merge";
 
 import {
   ParentContainer,
@@ -10,7 +10,7 @@ import {
   ScoreContainer,
   StepsContainer,
   Footer,
-} from "./style/style";
+} from "../style/style";
 import "./App.css";
 
 class App extends Component {
