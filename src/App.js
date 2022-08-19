@@ -110,8 +110,18 @@ class App extends Component {
                 if (next) {
                   if (currentEl.value === next.value) {
                     matrix[index][currentEl.cIndex] = 2 * currentEl.value;
-                    matrix[currentEl.rIndex][currentEl.cIndex] =
-                      2 * currentEl.value;
+                    console.log(
+                      `matrix[index][currentEl.cIndex] = ${
+                        matrix[index][currentEl.cIndex]
+                      }`
+                    );
+                    // matrix[currentEl.rIndex][currentEl.cIndex] =
+                    //   2 * currentEl.value;
+                    // console.log(
+                    //   `matrix[currentEl.rIndex][currentEl.cIndex] = ${
+                    //     matrix[currentEl.rIndex][currentEl.cIndex]
+                    //   }`
+                    // );
 
                     if (2 * currentEl.value === 2048) {
                       this.setState({
@@ -121,7 +131,7 @@ class App extends Component {
 
                     score = score + 2 * currentEl.value;
                     matrix[index + 1][currentEl.cIndex] = null;
-                    matrix[next.rIndex][next.cIndex] = null;
+                    // matrix[next.rIndex][next.cIndex] = null;
                     index += 1;
                     lastIndex = i + 1;
                   } else {
@@ -202,12 +212,17 @@ class App extends Component {
                 score = score + 2 * matrix[i][j];
                 matrix[i][j - 1] = null;
               }
+            } else if (j !== 0) {
+              if (!matrix[i][j] && matrix[i][j - 1]) {
+                matrix[i][j] = matrix[i][j - 1];
+                matrix[i][j - 1] = null;
+              }
             }
           }
         }
-      } else if (dir === "left") {
+      } else {
         for (let i = 0; i < matrix.length; i++) {
-          for (let j = 0; j < matrix[i].length - 1; j++) {
+          for (let j = 0; j <= matrix[i].length - 1; j++) {
             if (j !== matrix[i].length && matrix[i][j]) {
               if (matrix[i][j] === matrix[i][j + 1]) {
                 if (2 * matrix[i][j] === 2048) {
@@ -217,6 +232,11 @@ class App extends Component {
                 }
                 matrix[i][j] = 2 * matrix[i][j];
                 score = score + 2 * matrix[i][j];
+                matrix[i][j + 1] = null;
+              }
+            } else if (j !== matrix[i].length) {
+              if (!matrix[i][j] && matrix[i][j + 1]) {
+                matrix[i][j] = matrix[i][j + 1];
                 matrix[i][j + 1] = null;
               }
             }
@@ -262,6 +282,23 @@ class App extends Component {
       score: this.state.prevScore,
     });
   };
+
+  // decrease() {
+  //   const [count, setCount] = useState(steps);
+  //   const countRef = useRef(count);
+  //   countRef.current = count;
+
+  //   const decreaseSteps = () => {
+  //     setTimeout(() => {
+  //       console.log("working");
+  //       if (this.state.steps > 0) {
+  //         this.setState({
+  //           steps: this.state.steps - 1,
+  //         });
+  //       }
+  //     }, 4000);
+  //   };
+  // }
 
   decreaseSteps = () => {
     if (this.state.steps > 0) {
@@ -531,7 +568,6 @@ class App extends Component {
                     )}
                   </Board>
                 </ParentContainer>
-                {/* <div>{console.log(this.state.score / this.state.steps)} </div> */}
                 <Footer>
                   <strong>
                     {!this.state.focus && (
