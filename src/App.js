@@ -110,11 +110,11 @@ class App extends Component {
                 if (next) {
                   if (currentEl.value === next.value) {
                     matrix[index][currentEl.cIndex] = 2 * currentEl.value;
-                    console.log(
-                      `matrix[index][currentEl.cIndex] = ${
-                        matrix[index][currentEl.cIndex]
-                      }`
-                    );
+                    // console.log(
+                    //   `matrix[index][currentEl.cIndex] = ${
+                    //     matrix[index][currentEl.cIndex]
+                    //   }`
+                    // );
                     // matrix[currentEl.rIndex][currentEl.cIndex] =
                     //   2 * currentEl.value;
                     // console.log(
