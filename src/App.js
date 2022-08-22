@@ -39,6 +39,7 @@ class App extends Component {
       gameWon: false,
       gameOver: false,
       steps: 0,
+      undoDone: false,
     };
   }
 
@@ -69,6 +70,7 @@ class App extends Component {
       gameWon: false,
       gameOver: false,
       steps: 0,
+      undoDone: false,
     });
   };
 
@@ -277,10 +279,13 @@ class App extends Component {
   }
 
   undo = () => {
-    this.setState({
-      tiles: this.state.prev,
-      score: this.state.prevScore,
-    });
+    !this.state.undoDone &&
+      this.setState({
+        tiles: this.state.prev,
+        score: this.state.prevScore,
+        steps: this.state.steps > 0 && this.state.steps - 1,
+        undoDone: true,
+      });
   };
 
   // decrease() {
@@ -300,13 +305,13 @@ class App extends Component {
   //   };
   // }
 
-  decreaseSteps = () => {
-    if (this.state.steps > 0) {
-      this.setState({
-        steps: this.state.steps - 1,
-      });
-    }
-  };
+  // decreaseSteps = () => {
+  //   if (this.state.steps > 0) {
+  //     this.setState({
+  //       steps: this.state.steps - 1,
+  //     });
+  //   }
+  // };
 
   handleArrowDown = async (e) => {
     const { key } = e;
@@ -348,6 +353,9 @@ class App extends Component {
         if (hasMatrixChanged) {
           this.countKey();
           this.insertTile(m);
+          this.setState({
+            undoDone: false,
+          });
         }
       } else if (key === "ArrowUp") {
         index.forEach((s) => {
@@ -450,7 +458,6 @@ class App extends Component {
                     <Undo
                       onClick={() => {
                         this.undo();
-                        this.decreaseSteps();
                       }}
                     >
                       UNDO{" "}
